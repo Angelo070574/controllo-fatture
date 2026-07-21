@@ -1,239 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Controllo Fatture</title>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #d4af37;
-    }
-
-    header {
-      text-align: center;
-      padding: 25px 15px;
-      border-bottom: 1px solid #d4af37;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 30px;
-    }
-
-    .container {
-      padding: 20px;
-      max-width: 800px;
-      margin: auto;
-    }
-
-    .card {
-      background: #1c1c1c;
-      border: 1px solid #d4af37;
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 18px;
-    }
-
-    button {
-      width: 100%;
-      padding: 16px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 10px;
-      background: #d4af37;
-      color: #111;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 14px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: 1px solid #777;
-      font-size: 16px;
-    }
-
-    .small {
-      color: #ddd;
-      font-size: 15px;
-      line-height: 1.5;
-    }
-
-    #listaFatture {
-      margin-top: 15px;
-    }
-
-    .fattura {
-      padding: 12px;
-      border-bottom: 1px solid #555;
-      color: white;
-    }
-
-    .pagata {
-      color: #5fd35f;
-      font-weight: bold;
-    }
-
-    .non-pagata {
-      color: #ff6666;
-      font-weight: bold;
-    }
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<title>Controllo Fatture</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-<header>
-  <h1>Controllo Fatture</h1>
-</header>
-
-<div class="container">
-
-  <div class="card">
-    <h2>Importa una fattura</h2>
-
-    <p class="small">
-      Carica una fattura elettronica, PDF o immagine.
-      In seguito l'app potrà leggere automaticamente fornitore,
-      prodotti, quantità e prezzi.
-    </p>
-
-    <input
-      type="file"
-      id="fileFattura"
-      accept=".xml,.pdf,.jpg,.jpeg,.png"
-    >
-
-    <button onclick="importaFattura()">
-      Analizza fattura
-    </button>
-  </div>
-
-  <div class="card">
-    <h2>Archivio fatture</h2>
-
-    <button onclick="mostraFatture()">
-      Visualizza fatture
-    </button>
-
-    <div id="listaFatture"></div>
-  </div>
-
-  <div class="card">
-    <h2>Controllo prezzi</h2>
-
-    <p class="small">
-      Qui confronteremo automaticamente i prezzi dello stesso prodotto
-      tra fatture diverse e tra fornitori.
-    </p>
-
-    <button onclick="controllaPrezzi()">
-      Controlla prezzi
-    </button>
-  </div>
-
-</div>
-
-<script>
-
-let fatture = JSON.parse(localStorage.getItem("fatture")) || [];
-
-function importaFattura() {
-
-  const input = document.getElementById("fileFattura");
-
-  if (!input.files.length) {
-    alert("Seleziona prima una fattura.");
-    return;
-  }
-
-  const file = input.files[0];
-
-  const nuovaFattura = {
-    nome: file.name,
-    data: new Date().toLocaleDateString("it-IT"),
-    pagata: false
-  };
-
-  fatture.push(nuovaFattura);
-
-  localStorage.setItem(
-    "fatture",
-    JSON.stringify(fatture)
-  );
-
-  alert("Fattura importata nell'archivio.");
-
-  mostraFatture();
-}
-
-function mostraFatture() {
-
-  const contenitore =
-    document.getElementById("listaFatture");
-
-  contenitore.innerHTML = "";
-
-  if (fatture.length === 0) {
-    contenitore.innerHTML =
-      "<p class='small'>Nessuna fattura presente.</p>";
-    return;
-  }
-
-  fatture.forEach((fattura, indice) => {
-
-    const div = document.createElement("div");
-
-    div.className = "fattura";
-
-    div.innerHTML = `
-      <strong>${fattura.nome}</strong><br>
-      Importata: ${fattura.data}<br>
-      Stato:
-      <span class="${fattura.pagata ? "pagata" : "non-pagata"}">
-        ${fattura.pagata ? "PAGATA" : "DA PAGARE"}
-      </span>
-      <br>
-      <button onclick="cambiaStato(${indice})">
-        ${fattura.pagata ? "Segna da pagare" : "Segna come pagata"}
-      </button>
-    `;
-
-    contenitore.appendChild(div);
-  });
-}
-
-function cambiaStato(indice) {
-
-  fatture[indice].pagata =
-    !fatture[indice].pagata;
-
-  localStorage.setItem(
-    "fatture",
-    JSON.stringify(fatture)
-  );
-
-  mostraFatture();
-}
-
-function controllaPrezzi() {
-
-  alert(
-    "Il controllo automatico dei prezzi verrà attivato nel prossimo passaggio."
-  );
-
-}
-
-</script>
-
-</body>
-</html>
-
+<header><h1>Controllo Fatture</h1><p>Dolce e Goloso</p></header>
+<main>
+<section class="stats">
+ <div><b id="nFatture">1</b><span>Fatture</span></div>
+ <div><b id="daPagare">€ 197,60</b><span>Da pagare</span></div>
+</section>
+<nav>
+ <button class="active" data-tab="fatture">Fatture</button>
+ <button data-tab="prezzi">Prodotti / Prezzi</button>
+ <button data-tab="fornitori">Fornitori</button>
+</nav>
+<section id="fatture" class="tab active">
+ <article class="card">
+  <div class="row"><h2>G&amp;P CENTER S.R.L.</h2><span class="badge unpaid">DA PAGARE</span></div>
+  <p>Fattura <b>26909054 R2</b> · 16/07/2026</p>
+  <p>Scadenza: <b>30/09/2026</b></p>
+  <div class="total">€ 197,60</div>
+  <button class="pay" onclick="togglePaid(this)">Segna come pagata</button>
+ </article>
+</section>
+<section id="prezzi" class="tab">
+ <article class="card"><h2>Prezzi rilevati</h2>
+  <table><thead><tr><th>Prodotto</th><th>€/kg</th></tr></thead><tbody>
+   <tr><td>TORTA VEG KG 1</td><td>36,312</td></tr>
+   <tr><td>NUTELLA G3000 2×3KG</td><td>8,15</td></tr>
+   <tr><td>AMARENA VARIEGATA KG 3</td><td>15,1776</td></tr>
+  </tbody></table>
+  <p class="hint">Quando importeremo altre fatture, qui confronteremo automaticamente i prezzi precedenti e segnaleremo aumenti o diminuzioni.</p>
+ </article>
+</section>
+<section id="fornitori" class="tab">
+ <article class="card"><h2>G&amp;P CENTER S.R.L.</h2><p>1 fattura registrata</p><p>Ultimo totale: € 197,60</p></article>
+</section>
+</main>
+<script src="app.js"></script>
+</body></html>
