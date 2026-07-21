@@ -1,46 +1,104 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111111">
-<title>Controllo Fatture</title>
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#0b4f9c">
+
+  <title>Registro Fatture</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<header><h1>Controllo Fatture</h1><p>Dolce e Goloso</p></header>
-<main>
-<section class="stats">
- <div><b id="nFatture">1</b><span>Fatture</span></div>
- <div><b id="daPagare">€ 197,60</b><span>Da pagare</span></div>
+
+  <main class="app">
+
+    <header class="app-header">
+      <div class="logo">✓</div>
+
+      <div>
+        <h1>Registro Fatture</h1>
+        <p>Controllo prezzi e pagamenti</p>
+      </div>
+    </header>
+
+   <section class="riepilogo">
+  <div class="riquadro">
+    <span>Fatture</span>
+    <strong id="numeroFatture">0</strong>
+  </div>
+
+  <div class="riquadro">
+    <span>Da pagare</span>
+    <strong id="numeroDaPagare">0</strong>
+  </div>
+
+  <div class="riquadro">
+    <span>Spese del mese</span>
+    <strong id="totaleMese">€ 0,00</strong>
+  </div>
+
+  <div class="riquadro">
+    <span>Spese dell’anno</span>
+    <strong id="totaleAnno">€ 0,00</strong>
+  </div>
 </section>
-<nav>
- <button class="active" data-tab="fatture">Fatture</button>
- <button data-tab="prezzi">Prodotti / Prezzi</button>
- <button data-tab="fornitori">Fornitori</button>
-</nav>
-<section id="fatture" class="tab active">
- <article class="card">
-  <div class="row"><h2>G&amp;P CENTER S.R.L.</h2><span class="badge unpaid">DA PAGARE</span></div>
-  <p>Fattura <b>26909054 R2</b> · 16/07/2026</p>
-  <p>Scadenza: <b>30/09/2026</b></p>
-  <div class="total">€ 197,60</div>
-  <button class="pay" onclick="togglePaid(this)">Segna come pagata</button>
- </article>
-</section>
-<section id="prezzi" class="tab">
- <article class="card"><h2>Prezzi rilevati</h2>
-  <table><thead><tr><th>Prodotto</th><th>€/kg</th></tr></thead><tbody>
-   <tr><td>TORTA VEG KG 1</td><td>36,312</td></tr>
-   <tr><td>NUTELLA G3000 2×3KG</td><td>8,15</td></tr>
-   <tr><td>AMARENA VARIEGATA KG 3</td><td>15,1776</td></tr>
-  </tbody></table>
-  <p class="hint">Quando importeremo altre fatture, qui confronteremo automaticamente i prezzi precedenti e segnaleremo aumenti o diminuzioni.</p>
- </article>
-</section>
-<section id="fornitori" class="tab">
- <article class="card"><h2>G&amp;P CENTER S.R.L.</h2><p>1 fattura registrata</p><p>Ultimo totale: € 197,60</p></article>
-</section>
-</main>
-<script src="app.js"></script>
-</body></html>
+
+    <section class="menu">
+
+      <button class="pulsante principale" id="nuovaFattura">
+        <span class="icona">＋</span>
+        <span>
+          <strong>Nuova fattura</strong>
+          <small>Importa XML, PDF o foto</small>
+        </span>
+      </button>
+
+      <button class="pulsante" id="archivio">
+        <span class="icona">📁</span>
+        <span>
+          <strong>Archivio fatture</strong>
+          <small>Cerca e controlla i documenti</small>
+        </span>
+      </button>
+
+      <button class="pulsante" id="prezzi">
+        <span class="icona">📈</span>
+        <span>
+          <strong>Controllo prezzi</strong>
+          <small>Confronta gli aumenti dei prodotti</small>
+        </span>
+      </button>
+
+      <button class="pulsante" id="pagamenti">
+        <span class="icona">✓</span>
+        <span>
+          <strong>Pagamenti</strong>
+          <small>Fatture pagate e non pagate</small>
+        </span>
+      </button>
+
+    </section>
+
+    <input
+      type="file"
+      id="selettoreFile"
+      accept=".xml,.p7m,.pdf,image/*"
+      hidden
+    >
+
+</button>
+<section id="messaggio" class="messaggio nascosto"></section>
+  </main>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
